@@ -19,6 +19,15 @@ class Employees extends Component {
         }).catch((err) => {console.log(err);})
     }
 
+    formatDate(date){
+        let dob = new Date(date);
+        let month = dob.getMonth() + 1;
+        let day = dob.getDate();
+        let year = dob.getFullYear();
+
+        return [month, day, year].join("/");
+    }
+
      render(){
          return (
             <Container>
@@ -34,11 +43,26 @@ class Employees extends Component {
                 </Row> */}
                 <Row>
                     <Col size="md-12">
-                        {
+                    <table className="table">
+            <tbody className="table-body">
+                <tr>
+                    <th>Picture</th>
+                    <th>Name</th>
+                    <th>Phone</th>
+                    <th>Email</th>
+                    <th>DOB</th>
+                </tr>
+                {
                         this.state.isLoading ?
-                        <h1>Loading</h1> :
-                        <Table alt="Photo of Employee" src={this.state.result[0].picture.thumbnail} name={this.state.result[0].name.first.concat(" ", this.state.result[0].name.last)} phone={this.state.result[0].phone} email={this.state.result[0].email} dob={this.state.result[0].dob.date}/>
+                        <tr>
+                            <td>Loading</td>
+                        </tr> :
+                        this.state.result.map((employee, i) => {
+                          return  <Table alt="Photo of Employee" src={employee.picture.thumbnail} name={employee.name.first.concat(" ", employee.name.last)} phone={employee.phone} email={employee.email} dob={this.formatDate(employee.dob.date)}/>
+                        })
                         }
+            </tbody>
+        </table>
                     </Col>
                 </Row>
             </Container>

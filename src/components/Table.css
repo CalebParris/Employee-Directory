@@ -1,8 +1,11 @@
 .table{
-    min-width: 100vw;
     margin-top: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
 }
 
-table, th, tr {
+th, tr {
     border: 2px solid black
 }
