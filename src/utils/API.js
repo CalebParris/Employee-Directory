@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const API =  {
-    users: () => {
+    getUsers: () => {
         return axios.get("https://randomuser.me/api/?results=200&nat=us");
     }
 }

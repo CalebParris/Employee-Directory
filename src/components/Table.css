@@ -9,3 +9,7 @@
 th, tr {
     border: 2px solid black
 }
+
+tr:nth-child(even) {
+    background-color: lightgray;
+}

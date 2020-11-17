@@ -10,11 +10,11 @@ import API from "../utils/API";
 class Employees extends Component {
     state = {
         result: [],
-        isLoading: true
+        isLoading: true,
     };
 
     async componentDidMount(){
-       await API.users().then((res) => {
+       await API.getUsers().then((res) => {
             this.setState({result: res.data.results, isLoading: false})
         }).catch((err) => {console.log(err);})
     }
@@ -26,6 +26,36 @@ class Employees extends Component {
         let year = dob.getFullYear();
 
         return [month, day, year].join("/");
+    }
+
+    sortNamesDec(){
+        this.setState({result: this.state.result.sort((a, b) => {
+            let nameA = a.name.first.toLowerCase();
+            let nameB = b.name.first.toLowerCase();
+            if(nameA < nameB){
+                console.log(nameA, nameB);
+                return -1;
+            } 
+            else {
+                return 1;
+            }
+
+        })})
+    }
+
+    sortNamesAsc(){
+        this.setState({result: this.state.result.sort((a, b) => {
+            let nameA = a.name.first.toLowerCase();
+            let nameB = b.name.first.toLowerCase();
+            if(nameA > nameB){
+                console.log(nameA, nameB);
+                return 1;
+            } 
+            else {
+                return -1;
+            }
+
+        })})
     }
 
      render(){
@@ -47,7 +77,9 @@ class Employees extends Component {
             <tbody className="table-body">
                 <tr>
                     <th>Picture</th>
-                    <th>Name</th>
+                    <th><button onClick={() => {
+                        return this.sortNamesDec()
+                    }}>Name</button></th>
                     <th>Phone</th>
                     <th>Email</th>
                     <th>DOB</th>
@@ -57,9 +89,10 @@ class Employees extends Component {
                         <tr>
                             <td>Loading</td>
                         </tr> :
-                        this.state.result.map((employee, i) => {
+                        this.state.result.map((employee) => {
                           return  <Table alt="Photo of Employee" src={employee.picture.thumbnail} name={employee.name.first.concat(" ", employee.name.last)} phone={employee.phone} email={employee.email} dob={this.formatDate(employee.dob.date)}/>
-                        })
+                        }
+                        )
                         }
             </tbody>
         </table>
