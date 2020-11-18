@@ -29,18 +29,26 @@ class Employees extends Component {
         return [month, day, year].join("/");
     }
 
-    sortNamesDec(){
+    sortNamesDes(){
         this.setState({result: this.state.result.sort((a, b) => {
             let nameA = a.name.first.toLowerCase();
             let nameB = b.name.first.toLowerCase();
             if(nameA < nameB){
-                console.log(nameA, nameB);
                 return -1;
-            } 
-            else {
+            } else {
                 return 1;
             }
 
+        })})
+    }
+
+    sortPhoneDes(){
+        this.setState({result: this.state.result.sort((a, b) => {
+            if (a.phone < b.phone){
+                return -1
+            } else {
+                return 1;
+            }
         })})
     }
 
@@ -75,9 +83,11 @@ class Employees extends Component {
                 <tr>
                     <th>Picture</th>
                     <th><button onClick={() => {
-                        return this.sortNamesDec()
+                        return this.sortNamesDes()
                     }}>Name</button></th>
-                    <th>Phone</th>
+                    <th><button onClick={() => {
+                        return this.sortPhoneDes()
+                    }}>Phone</button></th>
                     <th>Email</th>
                     <th>DOB</th>
                 </tr>
