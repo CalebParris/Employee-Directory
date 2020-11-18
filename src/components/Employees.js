@@ -11,6 +11,7 @@ class Employees extends Component {
     state = {
         result: [],
         isLoading: true,
+        search: ""
     };
 
     async componentDidMount(){
@@ -43,19 +44,15 @@ class Employees extends Component {
         })})
     }
 
-    sortNamesAsc(){
-        this.setState({result: this.state.result.sort((a, b) => {
-            let nameA = a.name.first.toLowerCase();
-            let nameB = b.name.first.toLowerCase();
-            if(nameA > nameB){
-                console.log(nameA, nameB);
-                return 1;
-            } 
-            else {
-                return -1;
-            }
-
-        })})
+    handleInputChange = (event) => {
+        const value = event.target.value;
+        const name = event.target.name;
+        this.setState({ [name]: value});
+       const updatedList = this.state.result.filter(({name}) => {
+           let fullName = name.first.concat(name.last);
+          return fullName.toLowerCase().includes(value);
+       })
+       this.setState({result: updatedList});
     }
 
      render(){
@@ -68,7 +65,7 @@ class Employees extends Component {
                 </Row>
                 <Row>
                     <Col size="md-12">
-                        <SearchForm />
+                        <SearchForm  value={this.state.search} handleInputChange={this.handleInputChange}/>
                     </Col>
                 </Row>
                 <Row>
