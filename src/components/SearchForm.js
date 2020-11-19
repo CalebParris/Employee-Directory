@@ -4,7 +4,7 @@ import "./SearchForm.css"
 function SearchForm(props) {
     return (
         <form>
-            <input onChange={props.handleInputChange} value={props.value} name="search" type="text" className="search-box" placeholder="Employee Name" id="search"></input>
+            <input onChange={props.handleInputChange} value={props.value} name="search" type="text" className="search-box" placeholder="Employee Info" id="search"></input>
         </form>
     )
 }
