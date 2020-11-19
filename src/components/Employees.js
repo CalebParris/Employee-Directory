@@ -10,13 +10,14 @@ import API from "../utils/API";
 class Employees extends Component {
     state = {
         result: [],
-        isLoading: true,
-        search: ""
+        filteredResult: [],
+        search: "",
+        order: true
     };
 
-    async componentDidMount(){
-       await API.getUsers().then((res) => {
-            this.setState({result: res.data.results, isLoading: false})
+     componentDidMount(){
+        API.getUsers().then((res) => {
+            this.setState({result: res.data.results, filteredResult: res.data.results})
         }).catch((err) => {console.log(err);})
     }
 
@@ -29,20 +30,28 @@ class Employees extends Component {
         return [month, day, year].join("/");
     }
 
-    sortNamesDes(){
-        this.setState({result: this.state.result.sort((a, b) => {
+    handleSortNames(){
+        if(this.state.order){
+            this.setState({order: false})
+        } else {
+            this.setState({order: true})
+        }
+
+        const compareNames = (a, b) => {
             let nameA = a.name.first.toLowerCase();
-            let nameB = b.name.first.toLowerCase();
-            if(nameA < nameB){
-                return -1;
+                let nameB = b.name.first.toLowerCase();
+
+            if (!this.state.order){
+                return nameA.localeCompare(nameB)
             } else {
-                return 1;
+                return nameB.localeCompare(nameA)
             }
+            }
+            const sortedNames = this.state.filteredResult.sort(compareNames)
+            this.setState({filteredResult: sortedNames})
+        }    
 
-        })})
-    }
-
-    sortPhoneDes(){
+    handleSortPhone(){
         this.setState({result: this.state.result.sort((a, b) => {
             if (a.phone < b.phone){
                 return -1
@@ -83,23 +92,18 @@ class Employees extends Component {
                 <tr>
                     <th>Picture</th>
                     <th><button onClick={() => {
-                        return this.sortNamesDes()
+                        return this.handleSortNames()
                     }}>Name</button></th>
                     <th><button onClick={() => {
-                        return this.sortPhoneDes()
+                        return this.handleSortPhone()
                     }}>Phone</button></th>
                     <th>Email</th>
                     <th>DOB</th>
                 </tr>
                 {
-                        this.state.isLoading ?
-                        <tr>
-                            <td>Loading</td>
-                        </tr> :
                         this.state.result.map((employee) => {
                           return  <Table alt="Photo of Employee" src={employee.picture.thumbnail} name={employee.name.first.concat(" ", employee.name.last)} phone={employee.phone} email={employee.email} dob={this.formatDate(employee.dob.date)}/>
-                        }
-                        )
+                        })
                         }
             </tbody>
         </table>
