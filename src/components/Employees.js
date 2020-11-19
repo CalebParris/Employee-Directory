@@ -42,9 +42,9 @@ class Employees extends Component {
                 let nameB = b.name.first.toLowerCase();
 
             if (!this.state.order){
-                return nameA.localeCompare(nameB)
-            } else {
                 return nameB.localeCompare(nameA)
+            } else {
+                return nameA.localeCompare(nameB)
             }
             }
             const sortedNames = this.state.filteredResult.sort(compareNames)
@@ -81,14 +81,14 @@ class Employees extends Component {
     }
 
     handleInputChange = (event) => {
-        const value = event.target.value;
+        const typed = event.target.value;
         const name = event.target.name;
-        this.setState({ [name]: value});
-       const updatedList = this.state.result.filter(({name}) => {
-           let fullName = name.first.concat(name.last);
-          return fullName.toLowerCase().includes(value);
+        this.setState({ [name]: typed});
+       const updatedList = this.state.result.filter((name) => {
+           let fullName = Object.values(name).join("").toLocaleLowerCase();
+          return fullName.indexOf(typed.toLowerCase()) !== -1;
        })
-       this.setState({result: updatedList});
+       this.setState({filteredResult: updatedList});
     }
 
      render(){
@@ -120,7 +120,7 @@ class Employees extends Component {
                     <th>DOB</th>
                 </tr>
                 {
-                        this.state.result.map((employee) => {
+                        this.state.filteredResult.map((employee) => {
                           return  <Table alt="Photo of Employee" src={employee.picture.thumbnail} name={employee.name.first.concat(" ", employee.name.last)} phone={employee.phone} email={employee.email} dob={this.formatDate(employee.dob.date)}/>
                         })
                         }
