@@ -52,13 +52,32 @@ class Employees extends Component {
         }    
 
     handleSortPhone(){
-        this.setState({result: this.state.result.sort((a, b) => {
-            if (a.phone < b.phone){
-                return -1
+        if(this.state.order){
+            this.setState({order: false})
+        } else {
+            this.setState({order: true})
+        }
+
+        const comparePhone = (a, b) => {
+            let phoneA = a.phone;
+                let phoneB = b.phone;
+
+            if (!this.state.order){
+                if(phoneA < phoneB){
+                    return 1
+                } else {
+                    return -1
+                }
             } else {
-                return 1;
+                if (phoneA < phoneB){
+                    return -1
+                } else {
+                    return 1
+                }
             }
-        })})
+            }
+            const sortedPhones = this.state.filteredResult.sort(comparePhone)
+            this.setState({filteredResult: sortedPhones})
     }
 
     handleInputChange = (event) => {
