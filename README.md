@@ -37,7 +37,9 @@
 
    Here is a link to the deployed version of this app:
 
-   []()
+   [https://calebparris.github.io/employee-directory/](https://calebparris.github.io/employee-directory/)
+
+   If you would like to deploy a version of this for yourself, change the url of the "homepage" key in the package.json file to the link of your choosing.
 
    ## Questions
    If you have any comments, questions, or concerns about this project, please post them [here](https://github.com/CalebParris/employee-directory/issues) and I will respond as soon as I am able.
